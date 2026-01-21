@@ -1,32 +1,7 @@
 import pandas as pd
 import os
-import keras
 from Day_6_data_cleaner import DataCleaner
 from keras.models import load_model
-
-
-
-# create a fake person data to make prediction on
-# poor_guy  = {
-#     "Pclass":3,
-#     "Age": 23,
-#     "SibSp":0,
-#     "Parch":0,
-#     "Fare":20,
-#     "Sex": "male",
-#     "Embarked":"Q",
-# }
-
-# rich_lady  = {
-#     "Pclass":1,
-#     "Age": 28,
-#     "SibSp":0,
-#     "Parch":0,
-#     "Fare":500,
-#     "Sex": "female",
-#     "Embarked":"S",
-
-# }
 
 
 def predict_survival(passenger_dict):
@@ -79,7 +54,4 @@ def predict_survival(passenger_dict):
      
     return probability
 
-
-# print(f"rich lady survival probability: {predict_survival(rich_lady):.2%}")
-# print(f"poor guy survival probability: {predict_survival(poor_guy):.2%}")
 
