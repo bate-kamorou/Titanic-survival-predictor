@@ -3,3 +3,5 @@ tensorflow
 pandas 
 scikit-learn
 joblib
+keras
+
