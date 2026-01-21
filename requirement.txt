@@ -1,3 +1,4 @@
+
 streamlit
 tensorflow
 pandas 
@@ -5,4 +6,5 @@ scikit-learn
 joblib
 keras
 numpy
+sklearn
 
