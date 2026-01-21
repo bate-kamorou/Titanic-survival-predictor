@@ -7,26 +7,26 @@ from keras.models import load_model
 
 
 # create a fake person data to make prediction on
-poor_guy  = {
-    "Pclass":3,
-    "Age": 23,
-    "SibSp":0,
-    "Parch":0,
-    "Fare":20,
-    "Sex": "male",
-    "Embarked":"Q",
+# poor_guy  = {
+#     "Pclass":3,
+#     "Age": 23,
+#     "SibSp":0,
+#     "Parch":0,
+#     "Fare":20,
+#     "Sex": "male",
+#     "Embarked":"Q",
+# }
 
-}
-rich_lady  = {
-    "Pclass":1,
-    "Age": 28,
-    "SibSp":0,
-    "Parch":0,
-    "Fare":500,
-    "Sex": "female",
-    "Embarked":"S",
+# rich_lady  = {
+#     "Pclass":1,
+#     "Age": 28,
+#     "SibSp":0,
+#     "Parch":0,
+#     "Fare":500,
+#     "Sex": "female",
+#     "Embarked":"S",
 
-}
+# }
 
 
 def predict_survival(passenger_dict):
@@ -37,14 +37,7 @@ def predict_survival(passenger_dict):
     cleaner = DataCleaner()
 
     # check if the scaler exist before loading it
-    scaler_path = "data/processor/scaler.joblib"
-    # if os.path.exists(scaler_path):
-    #     # load the scaler
-    #     cleaner.load_scaler(scaler_path)
-    #     print(f"scaler successfully loaded from {scaler_path}")
-    # else:
-    #     print(f"Scaler not found at {scaler_path}")
-    #     print("Available scaler are :" ,[f for f in os.listdir("data/processor") if f.endswith(".joblib")])
+    scaler_path = "scaler.joblib"
 
     cleaner.load_scaler(scaler_path)
     
@@ -71,17 +64,10 @@ def predict_survival(passenger_dict):
 
 
     # load the model
-    # check if the model exist before loading
-    model_path = "models/best_titanic_nn_model.keras"  # Use an existing model
-    if os.path.exists(model_path):
-        loaded_model = load_model(model_path)
-        print(f"Model loaded successfully from {model_path}")
-    else:
-        print(f"Model not found at {model_path}")
-        print("Available models:", [f for f in os.listdir("models") if f.endswith('.keras')])
-        return None
+    model_path = "best_titanic_nn_model.keras"  
+
+    loaded_model = load_model(model_path)
     
-    print(df_input.head())
     # define the features to match that of the training and test sets
     features = ["Pclass","Age","SibSp","Parch","Fare","Sex_male","Embarked_Q","Embarked_S"]
     X_new = df_input.reindex(columns=features)
@@ -94,5 +80,6 @@ def predict_survival(passenger_dict):
     return probability
 
 
-print(f"rich lady survival probability: {predict_survival(rich_lady):.2%}")
-print(f"poor guy survival probability: {predict_survival(poor_guy):.2%}")
+# print(f"rich lady survival probability: {predict_survival(rich_lady):.2%}")
+# print(f"poor guy survival probability: {predict_survival(poor_guy):.2%}")
+
