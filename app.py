@@ -38,9 +38,9 @@ if st.button("**Calculate survival probalility**", type="primary"):
     }
 
     if model == "Random Forest":
-        model_path  = "model/best_rf_estimator.joblib"
+        model_path  = "models/best_rf_estimator.joblib"
     else:
-        model_path = "model/best_titanic_removed_nn_model.keras"
+        model_path = "models/best_titanic_removed_nn_model.keras"
 
     with st.spinner("**Analyzing passenger manifest...**"):
     # call make a prediction with the data
@@ -55,6 +55,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
                 st.error(f"### ❌ Survival Unlikely: {prediction:.2%}")
         else:
             st.error("### ❌ Error: Could not make prediction")
+
 
 
 
