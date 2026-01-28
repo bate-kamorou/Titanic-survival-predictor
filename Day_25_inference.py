@@ -17,18 +17,18 @@ import joblib
 #     "Embarked":"Q",
 
 # }
-rich_lady  = {
-    "Pclass":1,
-    "Age": 28,
-    "SibSp":0,
-    "Parch":0,
-    "Fare":500,
-    "Sex": "female",
-    "Embarked":"S"
-}
+# rich_lady  = {
+#     "Pclass":1,
+#     "Age": 28,
+#     "SibSp":0,
+#     "Parch":0,
+#     "Fare":500,
+#     "Sex": "female",
+#     "Embarked":"S"
+# }
 
 
-def predict_survival(passenger_dict, model_path:str="models/best_titanic_removed_nn_model.keras"):
+def predict_survival(passenger_dict, model_path):
     """
     Takes a dictionary of passsenger's details and return a survial probalility
     """
@@ -36,7 +36,7 @@ def predict_survival(passenger_dict, model_path:str="models/best_titanic_removed
     cleaner = DataCleaner()
 
     # check if the scaler exist before loading it
-    scaler_path = "data/processor/scaler.joblib"
+    scaler_path = "scaler.joblib"
     # if os.path.exists(scaler_path):
     #     # load the scaler
     #     cleaner.load_scaler(scaler_path)
@@ -72,7 +72,7 @@ def predict_survival(passenger_dict, model_path:str="models/best_titanic_removed
     # load either keras model or joblib model based on the file extension to make a prediction
     if not os.path.exists(model_path):
         print(f"Model not found at {model_path}")
-        print("Available models:", [f for f in os.listdir("models") if f.endswith('.keras') or f.endswith('.joblib')])
+        print("Available models:", [f for f in os.listdir("model") if f.endswith('.keras') or f.endswith('.joblib')])
         return None
     
     if model_path.endswith(".keras"):
@@ -99,11 +99,12 @@ def predict_survival(passenger_dict, model_path:str="models/best_titanic_removed
         return None 
     
 
-# make a prediction
-try:    
-    rich_lady_survival = predict_survival(rich_lady)
-    print(f"rich lady survival probability: {rich_lady_survival:.2%}")  
-except Exception as e:
-    print(f"Error during prediction: {e}")
+# # make a prediction
+# try:    
+#     rich_lady_survival = predict_survival(rich_lady)
+#     print(f"rich lady survival probability: {rich_lady_survival:.2%}")  
+# except Exception as e:
+#     print(f"Error during prediction: {e}")
 
 # print(f"poor guy survival probability: {predict_survival(poor_guy):.2%}")
+
