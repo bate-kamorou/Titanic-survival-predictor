@@ -130,23 +130,41 @@ class DataCleaner:
         self.scaler = joblib.load(path)
         print(f"Scaler loaded from {path}")
 
-    def encode_categorical(self, columns:list) -> None:
+    def encode_categorical(self, columns:list, is_training:bool=True) -> None:
         """
         One hot encode a list of specified columns 
 
         args:
 
         columns : the specified columns to one hot encode
+        is_training : if in training or inference mode
         """
         if self.df.empty:
             print("encode categorical erroring: Error No data loaded. Please load data first using file_path in __init__")
             return
-        
-        try:
-            # one hot encode the given columns
-            self.df = pd.get_dummies(self.df, columns=columns, drop_first=True, dtype=int)
-        except Exception as e:
-            print(f"error: column name not recognized {e}")
+        if is_training:
+            print("encodeing the data set during training")
+            try:
+                # one hot encode the given columns
+                self.df = pd.get_dummies(self.df, columns=columns, drop_first=True, dtype=int)
+            except Exception as e:
+                print(f"error: column name not recognized {e}")
+        else:
+            print("encoding the data set for inference")
+            # the one hot encoding is not going to work as it is only seeing a single exemple at a time so in will hand code it
+            if "Sex" in self.df.columns:
+                self.df["Sex_male"] = 1 if self.df["Sex"].values[0] == "male" else 0
+                self.df = self.df.drop(columns="Sex")
+            if "Embarked" in self.df.columns:
+                self.df["Embarked_Q"] = 1 if self.df["Embarked"].values[0] == "Q" else 0
+                self.df["Embarked_S"] = 1 if self.df["Embarked"].values[0] == "S" else 0
+                self.df = self.df.drop(columns="Embarked")
+
+
+
+
+
+
 
     def remove_columns(self, columns:list):
         """ 
@@ -162,6 +180,22 @@ class DataCleaner:
         
         # drop the columns
         self.df = self.df.drop(columns=columns)
+
+    def feature_engineer_cols(self):
+        """
+        Add features to help augument the data
+
+        columns added:
+        FamilySize
+        IsAlone
+        """
+        self.df["FamilySize"] = self.df["Parch"] + self.df["SibSp"] + 1
+        # self.df["isAlone"] =  0
+        # self.df.loc[self.df["familySize"] == 1, "isAlone"] = 1
+
+        self.df["IsAlone"] =  (self.df["FamilySize"] == 1).astype(int)
+        print("FamilySize and IsAlone columns added")
+        return self.df 
 
     def get_clean_data(self) :
         """
@@ -185,6 +219,8 @@ class DataCleaner:
             strategy: the strategy to fill the column with missing values
             encode_cols: categorical columns to be one hot encoded
             remove_cols: unnecessary columns to be removed from the data
+            
+        call's the feature enginerring function 
         """
         # 1. fill in the missing  Age values 
         self.handle_missing_data(missing_col, strategy)
@@ -193,10 +229,14 @@ class DataCleaner:
         self.min_max_scale(scale_col, is_training=is_training)
 
         # 3. one hot encode categorical    
-        self.encode_categorical(encode_cols)
+        self.encode_categorical(encode_cols, is_training=is_training)
+        
+        # Add the freature enginnered columns
+        self.feature_engineer_cols()
 
         # 4. remove unnecessary columns  
         self.remove_columns(remove_cols)
+
 
         print("full data cleaning process completed")
 
