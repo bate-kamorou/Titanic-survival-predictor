@@ -5,7 +5,7 @@ from Day_25_inference import predict_survival
 st.set_page_config(page_title="Titanic predictor", page_icon="🚢")
 
 st.title("🚢 Titanic Survival Predictor")
-st.write("##### Enter passenger details to see if the passenger would survival the Titanic.")
+st.write("##### Enter passenger details to see then choose the model add see if the passenger survives the Titanic.")
 
 # Ui input
 
@@ -15,6 +15,7 @@ with col1:
     p_class = st.selectbox("**Passenger's Class**", [1,2,3], )
     age  = st.slider("**Age**", 0, 80, 25)
     sex = st.radio("**Sex**", ["male", "female"])
+    model = st.selectbox("**Choose Model**", ["Random Forest", "Neural Network"], index=1)
 
 with col2:
     sibsp = st.number_input("**Sibilings /Spouses Aboard (Sibsp)**",value=0)
@@ -36,16 +37,24 @@ if st.button("**Calculate survival probalility**", type="primary"):
         "Embarked":embarked
     }
 
+    if model == "Random Forest":
+        model_path  = "models/best_rf_estimator.joblib"
+    else:
+        model_path = "models/best_titanic_removed_nn_model.keras"
+
     with st.spinner("**Analyzing passenger manifest...**"):
     # call make a prediction with the data
-        prediction = predict_survival(data)
+        prediction = predict_survival(data, model_path)
 
         # render the result with some flavors
-        if prediction  > 0.5:
-            st.success(f"### ✅ Survival Likely: {prediction:.2%}")
-            st.balloons()
+        if prediction is not None:
+            if prediction > 0.5:
+                st.success(f"### ✅ Survival Likely: {prediction:.2%}")
+                st.balloons()
+            else:
+                st.error(f"### ❌ Survival Unlikely: {prediction:.2%}")
         else:
-            st.error(f"### ❌ Survival Unlikely: {prediction:.2%}")
+            st.error("### ❌ Error: Could not make prediction")
 
 
 
