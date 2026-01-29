@@ -1,6 +1,6 @@
 import streamlit as st
 from Day_25_inference import predict_survival
-import matplotlib.pyplot as ply
+import matplotlib.pyplot as plt
 import os
 import joblib
 
@@ -81,6 +81,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
     
     st.write("---")
     st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
