@@ -59,7 +59,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
         else:
             st.error("### ❌ Error: Could not make prediction")  
 
-        st.subheader("###💡Model Insights")
+        st.subheader("💡Model Insights")
         st.write("Which factor influenced this specific prediction the most?")
         rf_explainer_path  = "models/best_rf_estimator.joblib"
         nn_explainer_path  = "models/best_titanic_removed_nn_model.keras"
@@ -81,6 +81,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
     
     st.write("---")
     st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
