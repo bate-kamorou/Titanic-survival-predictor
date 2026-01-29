@@ -65,7 +65,7 @@ def predict_survival(passenger_dict, model_path):
     print("Processed input data for prediction:\n", df_input)
 
     # reindexing to make sure the features passed to the model  always match the training set features
-    features = ["Pclass", "Age", "SibSp", "Parch", "Fare", "Sex_male", 
+    features = ["Pclass", "Age", "Fare", "Sex_male", 
                 "Embarked_Q", "Embarked_S", "FamilySize", "IsAlone"]
     df_new = df_input.reindex(columns=features, fill_value=0)
 
@@ -112,6 +112,7 @@ def predict_survival(passenger_dict, model_path):
 #     print(f"Error during prediction: {e}")
 
 # print(f"poor guy survival probability: {predict_survival(poor_guy):.2%}")
+
 
 
 
