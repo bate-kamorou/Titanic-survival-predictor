@@ -64,6 +64,11 @@ def predict_survival(passenger_dict, model_path):
     # take a look at the processed input data
     print("Processed input data for prediction:\n", df_input)
 
+    # reindexing to make sure the features passed to the model  always match the training set features
+    features = ["Pclass", "Age", "SibSp", "Parch", "Fare", "Sex_male", 
+                "Embarked_Q", "Embarked_S", "FamilySize", "IsAlone"]
+    df_new = df_processed.reindex(columns=features, fill_value=0)
+
     # load the model
     # check if the model exist before loading
 
@@ -82,7 +87,7 @@ def predict_survival(passenger_dict, model_path):
             return None
         print(f"Model loaded successfully from {model_path}")
         # make prediction with the loaded model
-        prediction = loaded_model.predict(df_input)    
+        prediction = loaded_model.predict(df_new)    
         probability = prediction[0][0]      
         return probability
     elif model_path.endswith(".joblib"):
@@ -91,7 +96,7 @@ def predict_survival(passenger_dict, model_path):
             print(f"Failed to load model from {model_path}")
             return None
         print(f"Model loaded successfully from {model_path}")
-        prediction = loaded_model.predict_proba(df_input)
+        prediction = loaded_model.predict_proba(df_new)
         probability = prediction[0][1]
         return probability
     else:
@@ -107,4 +112,5 @@ def predict_survival(passenger_dict, model_path):
 #     print(f"Error during prediction: {e}")
 
 # print(f"poor guy survival probability: {predict_survival(poor_guy):.2%}")
+
 
