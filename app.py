@@ -1,5 +1,7 @@
 import streamlit as st
 from Day_25_inference import predict_survival
+import matplotlib.pyplot as ply
+import os
 
 # page configuration to make it looks good on mobile
 st.set_page_config(page_title="Titanic predictor", page_icon="🚢")
@@ -78,6 +80,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
     
     st.write("---")
     st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
