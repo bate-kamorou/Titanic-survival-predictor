@@ -54,8 +54,30 @@ if st.button("**Calculate survival probalility**", type="primary"):
             else:
                 st.error(f"### ❌ Survival Unlikely: {prediction:.2%}")
         else:
-            st.error("### ❌ Error: Could not make prediction")
+            st.error("### ❌ Error: Could not make prediction")  
 
+        st.subheader("###💡Model Insights")
+        st.write("Which factor influenced this specific prediction the most?")
+        rf_explainer_path  = "models/best_rf_estimator.joblib"
+        nn_explainer_path  = "models/best_titanic_removed_nn_model.keras"
+    
+        if model == "Random Forest" and os.path.exists(rf_explainer_path):
+            explainer = joblib.load(rf_explainer_path)
+            feature_importances = explainer.feature_importances_
+            features = ["Pclass", "Age", "Fare", "Sex_male", "Embarked_Q", "Embarked_S", "FamilySize", "IsAlone"]
+    
+            # plot feature importances
+            fig, ax = plt.subplots(figsize=(10, 6))
+            sort_index = feature_importances.argsort()
+            plt.barh([features[i] for i in sort_index], feature_importances[sort_index])
+            plt.xlabel("Feature Importance")
+            plt.title("Feature Importance for Random Forest Model")
+            st.pyplot(fig)
+        elif model == "Neural Network" and os.path.exists(nn_explainer_path):
+            st.info("Feature importance visualization for Neural Networks can't be implemented.")
+    
+    st.write("---")
+    st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
 
 
 
