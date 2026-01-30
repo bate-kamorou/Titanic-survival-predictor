@@ -80,7 +80,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
             st.pyplot(fig)
         elif model == "Neural Network" and os.path.exists(nn_explainer_path):
             nn_explainer = load_model(nn_explainer_path)
-            weights , baises  = nn_explainer.layers[1].get_weights()
+            weights , baises  = nn_explainer.layers[0].get_weights()
             feature_importances = np.mean(np.abs(weights), axis=1)
             # plot the feature importances
             fig, ax = plt.subplots(figsize=(10, 6))
@@ -93,6 +93,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
     
     st.write("---")
     st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
