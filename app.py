@@ -90,9 +90,29 @@ if st.button("**Calculate survival probalility**", type="primary"):
             ax.set_xlabel("Average Absolute Weight (Importance Proxy)")
             ax.set_title("Feature Importance for Neural Network")
             st.pyplot(fig)
+
+        st.divider()
+        st.subheader("🎎 Historical context")
+        # load  the raw data
+        raw_data_path  = "titanic.csv"
+        raw_data = pd.read_csv(raw_data_path)
+        
+        # search for similar passengers based on pclass and sex
+        similar_passengers = raw_data[(raw_data["Pclass"] == p_class) and (raw_data["Sex"] == sex)]
+        
+        if not similar_passengers.empty:
+            actual_rate = similar_passengers["Survived"].mean()
+            st.write(f"In the actual Titanic disaster, passengers with **Class ({p_class})** and  **Sex ({sex})** had a survival rate of: **({actual_rate:.2f%})**")
+            st.write("Similar passengers in the manifest:")
+            st.dataframe(similar_passengers[["Name", "Age", "Survived"]].head(3))
+        else:
+            st.write("No similar passenger found in the historical record.")
+
+# footer    
     
     st.write("---")
     st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
