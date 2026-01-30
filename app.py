@@ -3,6 +3,8 @@ from Day_25_inference import predict_survival
 import matplotlib.pyplot as plt
 import os
 import joblib
+import numpy as np 
+from keras.models import load_model
 
 # page configuration to make it looks good on mobile
 st.set_page_config(page_title="Titanic predictor", page_icon="🚢")
@@ -72,15 +74,26 @@ if st.button("**Calculate survival probalility**", type="primary"):
             # plot feature importances
             fig, ax = plt.subplots(figsize=(10, 6))
             sort_index = feature_importances.argsort()
-            plt.barh([features[i] for i in sort_index], feature_importances[sort_index])
+            plt.barh([features[i] for i in sort_index], feature_importances[sort_index], color='#0078D4')
             plt.xlabel("Feature Importance")
             plt.title("Feature Importance for Random Forest Model")
             st.pyplot(fig)
         elif model == "Neural Network" and os.path.exists(nn_explainer_path):
-            st.info("Feature importance visualization for Neural Networks can't be implemented.")
+            nn_explainer = load_model(nn_explainer_path)
+            weights , baises  = nn_explainer.layers[0].get_weights()
+            feature_importances = np.mean(np.abs(weights), axis=1)
+            # plot the feature importances
+            fig, ax = plt.subplots(figsize=(10, 6))
+            sort_index = feature_importances.argsort()
+            features = ["Pclass", "Age", "Fare", "Sex_male", "Embarked_Q", "Embarked_S", "FamilySize", "IsAlone"]
+            plt.barh([features[i] for i in sort_index], feature_importances[sort_index], color='#FF4B4B')
+            ax.set_xlabel("Average Absolute Weight (Importance Proxy)")
+            ax.set_title("Feature Importance for Neural Network")
+            st.pyplot(fig)
     
     st.write("---")
     st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
