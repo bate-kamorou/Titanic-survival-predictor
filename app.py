@@ -99,7 +99,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
         raw_data = pd.read_csv(raw_data_path)
         
         # search for similar passengers based on pclass and sex
-        similar_passengers = raw_data[(raw_data["Pclass"] == p_class) and (raw_data["Sex"] == sex)]
+        similar_passengers = raw_data[(raw_data["Pclass"] == p_class) & (raw_data["Sex"] == sex)]
         
         if not similar_passengers.empty:
             actual_rate = similar_passengers["Survived"].mean()
@@ -111,8 +111,9 @@ if st.button("**Calculate survival probalility**", type="primary"):
 
 # footer    
     
-    st.write("---")
-    st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+st.write("---")
+st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
