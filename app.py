@@ -5,6 +5,7 @@ import os
 import joblib
 import numpy as np 
 from keras.models import load_model
+import pandas as pd
 
 # page configuration to make it looks good on mobile
 st.set_page_config(page_title="Titanic predictor", page_icon="🚢")
@@ -112,6 +113,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
     
     st.write("---")
     st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
