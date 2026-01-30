@@ -103,7 +103,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
         
         if not similar_passengers.empty:
             actual_rate = similar_passengers["Survived"].mean()
-            st.write("In the actual Titanic disaster, passengers with **Class**" ,p_class, "**Sex**" ,sex, "had a survival rate of", actual_rate)
+            st.write("In the actual Titanic disaster, passengers with **Class**" ,p_class, "**Sex**" ,sex, "had a survival rate of", np.round(actual_rate, 2))
             st.write("Similar passengers in the manifest:")
             st.dataframe(similar_passengers[["Name", "Age", "Survived"]].head(3))
         else:
@@ -113,6 +113,7 @@ if st.button("**Calculate survival probalility**", type="primary"):
     
 st.write("---")
 st.write("##### Developed by AI Engineering Bootcamp Student Bate kamorou")
+
 
 
 
